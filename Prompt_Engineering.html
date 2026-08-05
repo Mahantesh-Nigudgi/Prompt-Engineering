@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python Field Notes — NumPy, Pandas, Matplotlib &amp; Seaborn</title>
+<meta name="description" content="A hands-on notebook-style reference for NumPy, Pandas, Matplotlib and Seaborn — concepts, methods, mini projects, charts and curated learning resources.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="mobile-topbar">
+  <span>python_field_notes</span>
+  <button id="railToggle" type="button">☰ menu</button>
+</div>
+
+<div class="shell">
+
+  <!-- ============ SIDEBAR / KERNEL RAIL ============ -->
+  <aside class="rail" id="rail">
+    <div class="rail-brand"><span class="bracket">[</span><strong>field_notes.py</strong><span class="bracket">]</span></div>
+    <div class="kernel-status"><span class="dot"></span> kernel: ready — 4 libraries loaded</div>
+    <nav>
+      <a class="rail-link" data-nav href="#home">Home</a>
+      <a class="rail-link" data-nav href="#numpy"><span class="swatch" style="background:#4dabcf"></span>NumPy</a>
+      <a class="rail-link" data-nav href="#pandas"><span class="swatch" style="background:#e70488"></span>Pandas</a>
+      <a class="rail-link" data-nav href="#matplotlib"><span class="swatch" style="background:#11557c"></span>Matplotlib</a>
+      <a class="rail-link" data-nav href="#seaborn"><span class="swatch" style="background:#4c72b0"></span>Seaborn</a>
+      <a class="rail-link" data-nav href="#resources">Resources &amp; Courses</a>
+    </nav>
+    <div class="rail-foot">
+      import numpy as np<br>
+      import pandas as pd<br>
+      import matplotlib.pyplot as plt<br>
+      import seaborn as sns
+    </div>
+  </aside>
+
+  <main>
+
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="home">
+      <div class="hero-eyebrow"><span class="rule"></span> A NOTEBOOK OF FIELD NOTES FOR THE PYTHON DATA STACK</div>
+      <h1>Learn the four libraries every <span class="accent-numpy">data</span> <span class="accent-pandas">person</span> <span class="accent-mpl">actually</span> <span class="accent-sea">uses.</span></h1>
+      <p class="lede">NumPy, Pandas, Matplotlib and Seaborn explained the way you'd want a senior teammate to explain them — core concepts, the properties and methods you'll reach for daily, a mini project per library, real charts, and real-world use cases. No fluff, just the notes.</p>
+
+      <div class="hero-cell">
+        <div class="cell-head">
+          <div class="traffic"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+          <span class="label">welcome.ipynb</span>
+        </div>
+        <div class="cell-body">
+          <span class="in">In [1]:</span>
+          <div class="code"><span class="cmt"># the entire stack, in one cell</span><br>
+          <span class="kw">import</span> numpy <span class="kw">as</span> np, pandas <span class="kw">as</span> pd<br>
+          <span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt, seaborn <span class="kw">as</span> sns<br><br>
+          data = pd.DataFrame({<span class="str">'temp'</span>: np.random.normal(28, 3, 100)})<br>
+          sns.histplot(data, x=<span class="str">'temp'</span>, kde=<span class="kw">True</span>); plt.show()</div>
+          <span class="out">Out[1]: &lt;Figure size 640x480 with 1 Axes&gt; — scroll down, we'll build real ones →</span>
+        </div>
+      </div>
+
+      <div class="hero-stats">
+        <div><div class="num">4</div><div class="lbl">CORE LIBRARIES</div></div>
+        <div><div class="num">24+</div><div class="lbl">CONCEPTS COVERED</div></div>
+        <div><div class="num">30+</div><div class="lbl">METHODS &amp; PROPERTIES</div></div>
+        <div><div class="num">4</div><div class="lbl">MINI PROJECTS</div></div>
+      </div>
+    </section>
+
+    <!-- ============ NUMPY ============ -->
+    <section class="lib" id="numpy" data-accent="numpy">
+      <div class="lib-head">
+        <h2><span class="bracket">01 /</span> NumPy</h2>
+        <span class="lib-tag">the array engine underneath everything</span>
+      </div>
+      <p class="lib-intro">NumPy (Numerical Python) gives Python a fast, fixed-type array — the <code>ndarray</code> — plus the vectorized math to operate on it without writing loops. Pandas, Matplotlib, Seaborn and most of the machine learning stack are all built on top of it, so it's genuinely the foundation, not just "another library."</p>
+
+      <h3 class="block-title">Core concepts</h3>
+      <div class="concept-grid">
+        <div class="concept-card">
+          <h4>The <code>ndarray</code></h4>
+          <p>NumPy's core object is the n-dimensional array. Unlike a Python list, every element shares one <code>dtype</code>, which is what lets NumPy store data compactly and run operations in fast, compiled C code instead of the Python interpreter. Almost everything else in the library builds on this one structure.</p>
+        </div>
+        <div class="concept-card">
+          <h4>Array creation</h4>
+          <p>You rarely type arrays out by hand. <code>np.arange()</code> builds a range, <code>np.linspace()</code> spaces values evenly between two numbers, and <code>np.zeros()</code>/<code>np.ones()</code>/<code>np.full()</code> pre-allocate arrays of a given shape. <code>np.random</code> generates arrays for simulations and test data.</p>
+        </div>
+        <div class="concept-card">
+          <h4>Indexing &amp; slicing</h4>
+          <p>Arrays support the same <code>a[start:stop:step]</code> slicing as lists, extended to multiple dimensions with commas: <code>a[1:3, :2]</code>. Boolean indexing (<code>a[a &gt; 0]</code>) and fancy indexing (<code>a[[0,2,4]]</code>) let you filter and reorder data without writing a single loop.</p>
+        </div>
+        <div class="concept-card">
+          <h4>Broadcasting</h4>
+          <p>Broadcasting is the rule set that lets NumPy combine arrays of different shapes, like adding a single row to every row of a matrix, by "stretching" the smaller array without actually copying memory. It's the single idea that makes NumPy code short instead of loop-heavy.</p>
+        </div>
+        <div class="concept-card">
+          <h4>Vectorization &amp; ufuncs</h4>
+          <p>Universal functions (<code>np.sqrt</code>, <code>np.exp</code>, <code>+</code>, <code>*</code>...) apply element-wise across an entire array in one call. Writing <code>a + b</code> instead of looping over both arrays is what gives NumPy its speed, often 10-100x faster than plain Python for numeric work.</p>
+        </div>
+        <div class="concept-card">
+          <h4>Reshaping &amp; axes</h4>
+          <p>Every array has a shape describing its dimensions, and <code>reshape()</code> lets you rearrange the same data into a new one, e.g. a flat list of 12 numbers into a 3×4 grid. Most aggregate methods accept an <code>axis</code> argument to control whether you're summarizing rows or columns.</p>
+        </div>
+      </div>
+
+      <h3 class="block-title">Properties &amp; methods you'll actually use</h3>
+      <div class="table-wrap">
+        <table class="methods">
+          <thead><tr><th>Property / Method</th><th>What it does</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">.shape</td><td class="desc">Tuple giving the size of each dimension, e.g. <code>(3, 4)</code> for 3 rows and 4 columns.</td></tr>
+            <tr><td class="mono">.ndim</td><td class="desc">Number of dimensions (axes) the array has — 1 for a vector, 2 for a matrix.</td></tr>
+            <tr><td class="mono">.size / .dtype</td><td class="desc">Total element count, and the shared data type (<code>int64</code>, <code>float32</code>, etc.) of every element.</td></tr>
+            <tr><td class="mono">.reshape()</td><td class="desc">Returns the same data arranged into a new shape, without copying the underlying values.</td></tr>
+            <tr><td class="mono">.T</td><td class="desc">Transposes the array — flips rows and columns, useful before matrix multiplication.</td></tr>
+            <tr><td class="mono">.sum() / .mean() / .std()</td><td class="desc">Aggregate statistics, computed over the whole array or along a chosen <code>axis</code>.</td></tr>
+            <tr><td class="mono">np.dot() / @</td><td class="desc">Matrix multiplication — the backbone of linear algebra and most ML math.</td></tr>
+            <tr><td class="mono">np.where()</td><td class="desc">Vectorized if/else: returns values chosen from two arrays based on a condition.</td></tr>
+            <tr><td class="mono">np.sort() / np.argsort()</td><td class="desc">Sorts values, or returns the indices that would sort the array.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="project">
+        <span class="project-tag">MINI PROJECT</span>
+        <h4>📈 7-Day Weather Trend Analyzer</h4>
+        <div class="notebook">
+          <div class="io-block io-in">
+            <span class="tag">In [2]:</span>
+            <pre><span class="fn">import</span> numpy <span class="kw">as</span> np
+
+temps = np.array([21, 23, 22, 26, 29, 27, 24])
+
+<span class="cmt"># descriptive stats in three lines</span>
+avg   = temps.mean()
+spread = temps.std()
+peak  = temps.max()
+
+<span class="fn">print</span>(<span class="str">f"avg={avg:.1f} std={spread:.1f} peak={peak}"</span>)</pre>
+          </div>
+          <div class="io-block io-out">
+            <span class="tag">Out[2]: avg=24.6  std=2.6  peak=29</span>
+            <div class="chart-frame">
+              <svg viewBox="0 0 440 260" role="img" aria-label="Line chart of temperatures across seven days, ranging from 21 to 29 degrees">
+                <line x1="40" y1="48.6" x2="420" y2="48.6" stroke="#e1e2dc"/>
+                <line x1="40" y1="106" x2="420" y2="106" stroke="#e1e2dc"/>
+                <line x1="40" y1="163" x2="420" y2="163" stroke="#e1e2dc"/>
+                <text x="30" y="52" font-size="9" fill="#626876" text-anchor="end" font-family="JetBrains Mono">30°</text>
+                <text x="30" y="110" font-size="9" fill="#626876" text-anchor="end" font-family="JetBrains Mono">20°</text>
+                <text x="30" y="167" font-size="9" fill="#626876" text-anchor="end" font-family="JetBrains Mono">10°</text>
+                <line x1="40" y1="220" x2="420" y2="220" stroke="#1c2029" stroke-width="1"/>
+                <polyline points="40,100 103.3,88.6 166.7,94.3 230,71.4 293.3,54.3 356.7,65.7 420,82.9" fill="none" stroke="#4dabcf" stroke-width="2.5"/>
+                <g fill="#013243">
+                  <circle cx="40" cy="100" r="4"/><circle cx="103.3" cy="88.6" r="4"/><circle cx="166.7" cy="94.3" r="4"/>
+                  <circle cx="230" cy="71.4" r="4"/><circle cx="293.3" cy="54.3" r="4"/><circle cx="356.7" cy="65.7" r="4"/><circle cx="420" cy="82.9" r="4"/>
+                </g>
+                <g font-size="9" fill="#626876" text-anchor="middle" font-family="JetBrains Mono">
+                  <text x="40" y="236">Mon</text><text x="103" y="236">Tue</text><text x="167" y="236">Wed</text>
+                  <text x="230" y="236">Thu</text><text x="293" y="236">Fri</text><text x="357" y="236">Sat</text><text x="420" y="236">Sun</text>
+                </g>
+              </svg>
+            </div>
+            <p class="caption">Plotted with matplotlib once the array is built — NumPy did the math, matplotlib drew the line.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="real-world">
+        <div class="icon">RW</div>
+        <div>
+          <h4>Real-world example: images are just arrays</h4>
+          <p>A grayscale photo is literally a 2-D NumPy array of pixel brightness values (0-255); a color photo is a 3-D array with a third axis for red, green and blue. Tools like OpenCV and scikit-image lean on NumPy's slicing and broadcasting to crop, rotate, and filter images — cropping a photo is just <code>image[100:400, 200:600]</code>.</p>
+        </div>
+      </div>
+
+      <div class="resources-row">
+        <span class="label">GO DEEPER</span>
+        <div class="chip-set">
+          <a class="chip" href="https://numpy.org/doc/stable/" target="_blank" rel="noopener">Official NumPy docs <span class="arrow">↗</span></a>
+          <a class="chip" href="https://numpy.org/learn/" target="_blank" rel="noopener">NumPy.org learn hub <span class="arrow">↗</span></a>
+          <a class="chip" href="https://www.w3schools.com/python/numpy/default.asp" target="_blank" rel="noopener">W3Schools NumPy tutorial <span class="arrow">↗</span></a>
+          <a class="chip" href="https://www.geeksforgeeks.org/numpy-tutorial/" target="_blank" rel="noopener">GeeksforGeeks NumPy <span class="arrow">↗</span></a>
+          <a class="chip" href="https://www.freecodecamp.org/news/the-ultimate-guide-to-the-numpy-package-for-scientific-computing-in-python/" target="_blank" rel="noopener">freeCodeCamp guide <span class="arrow">↗</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PANDAS ============ -->
+    <section class="lib" id="pandas" data-accent="pandas">
+      <div class="lib-head">
+        <h2><span class="bracket">02 /</span> Pandas</h2>
+        <span class="lib-tag">spreadsheets, but programmable</span>
+      </div>
+      <p class="lib-intro">Pandas wraps NumPy arrays with labeled rows and columns, giving you the <code>Series</code> and <code>DataFrame</code> — structures built specifically for messy, real-world tabular data. It's the tool you reach for the moment your data has column names, missing values, or needs grouping and filtering.</p>
+
+      <h3 class="block-title">Core concepts</h3>
+      <div class="concept-grid">
+        <div class="concept-card">
+          <h4>Series vs DataFrame</h4>
+          <p>A <code>Series</code> is a single labeled column of data — values plus an index. A <code>DataFrame</code> is a table made of several Series that share the same index, essentially a spreadsheet you can script. Most work starts by loading data straight into a DataFrame.</p>
+        </div>
+        <div class="concept-card">
+          <h4>Reading &amp; writing data</h4>
+          <p><code>pd.read_csv()</code>, <code>read_excel()</code> and <code>read_json()</code> turn files straight into DataFrames, and their <code>.to_csv()</code>/<code>.to_excel()</code> counterparts write them back out. This is usually the first and last line of any pandas script.</p>
+        </div>
+        <div class="concept-card">
+          <h4>Selecting data</h4>
+          <p><code>.loc[]</code> selects by label (row/column names), while <code>.iloc[]</code> selects by integer position, mirroring NumPy. Boolean masks like <code>df[df.age &gt; 30]</code> filter rows by condition, the pandas equivalent of a SQL <code>WHERE</code> clause.</p>
+        </div>
+        <div class="concept-card">
+          <h4>Handling missing data</h4>
+          <p>Real data has gaps. <code>.isna()</code> flags missing values, <code>.dropna()</code> removes rows or columns containing them, and <code>.fillna()</code> substitutes a default or interpolated value so downstream math and models don't break.</p>
+        </div>
+        <div class="concept-card">
+          <h4>GroupBy &amp; aggregation</h4>
+          <p><code>.groupby()</code> implements the "split-apply-combine" pattern: split rows into groups by a column's value, apply an aggregate like <code>.mean()</code> or <code>.sum()</code> to each group, then combine the results — the same idea as a pivot table.</p>
+        </div>
+        <div class="concept-card">
+          <h4>Merging &amp; joining</h4>
+          <p><code>pd.merge()</code> combines two DataFrames on a shared key column, the same logic as a SQL join, while <code>pd.concat()</code> stacks DataFrames on top of or beside each other. Both are essential once your data lives in more than one table.</p>
+        </div>
+      </div>
+
+      <h3 class="block-title">Properties &amp; methods you'll actually use</h3>
+      <div class="table-wrap">
+        <table class="methods">
+          <thead><tr><th>Property / Method</th><th>What it does</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">.shape / .columns</td><td class="desc">Row/column count, and the list of column names in the DataFrame.</td></tr>
+            <tr><td class="mono">.dtypes</td><td class="desc">The data type pandas inferred for each column — worth checking right after loading a file.</td></tr>
+            <tr><td class="mono">.head() / .tail()</td><td class="desc">Previews the first or last rows, the fastest sanity check after any operation.</td></tr>
+            <tr><td class="mono">.describe()</td><td class="desc">One-line summary statistics (mean, std, quartiles) for every numeric column.</td></tr>
+            <tr><td class="mono">.groupby()</td><td class="desc">Groups rows by a column's values so an aggregate can be applied to each group.</td></tr>
+            <tr><td class="mono">.sort_values()</td><td class="desc">Sorts rows by one or more column values, ascending or descending.</td></tr>
+            <tr><td class="mono">.merge()</td><td class="desc">Joins two DataFrames on a shared key column, like a SQL <code>JOIN</code>.</td></tr>
+            <tr><td class="mono">.apply()</td><td class="desc">Runs a custom function across every row or column when a built-in method won't do it.</td></tr>
+            <tr><td class="mono">.pivot_table()</td><td class="desc">Reshapes and aggregates data into a spreadsheet-style pivot table in one call.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="project">
+        <span class="project-tag">MINI PROJECT</span>
+        <h4>🛒 Retail Sales Dashboard</h4>
+        <div class="notebook">
+          <div class="io-block io-in">
+            <span class="tag">In [3]:</span>
+            <pre><span class="fn">import</span> pandas <span class="kw">as</span> pd
+
+sales = pd.DataFrame({
+    <span class="str">'month'</span>: [<span class="str">'Jan'</span>,<span class="str">'Feb'</span>,<span class="str">'Mar'</span>,<span class="str">'Apr'</span>,<span class="str">'May'</span>,<span class="str">'Jun'</span>],
+    <span class="str">'revenue_k'</span>: [32, 45, 38, 52, 60, 58]
+})
+
+<span class="cmt"># best month, and running total</span>
+best = sales.loc[sales.revenue_k.idxmax(), <span class="str">'month'</span>]
+sales[<span class="str">'cumulative'</span>] = sales.revenue_k.cumsum()</pre>
+          </div>
+          <div class="io-block io-out">
+            <span class="tag">Out[3]: best month = May ($60k)</span>
+            <div class="chart-frame">
+              <svg viewBox="0 0 440 260" role="img" aria-label="Bar chart of monthly revenue in thousands of dollars from January to June">
+                <line x1="40" y1="48.6" x2="420" y2="48.6" stroke="#e1e2dc"/>
+                <line x1="40" y1="128.6" x2="420" y2="128.6" stroke="#e1e2dc"/>
+                <text x="30" y="52" font-size="9" fill="#626876" text-anchor="end" font-family="JetBrains Mono">60k</text>
+                <text x="30" y="132" font-size="9" fill="#626876" text-anchor="end" font-family="JetBrains Mono">30k</text>
+                <line x1="40" y1="220" x2="420" y2="220" stroke="#1c2029" stroke-width="1"/>
+                <g fill="#e70488">
+                  <rect x="54.6" y="128.6" width="34" height="91.4" rx="3"/>
+                  <rect x="117.9" y="91.4" width="34" height="128.6" rx="3"/>
+                  <rect x="181.3" y="111.4" width="34" height="108.6" rx="3"/>
+                  <rect x="244.6" y="71.4" width="34" height="148.6" rx="3"/>
+                  <rect x="307.9" y="48.6" width="34" height="171.4" rx="3" fill="#150458"/>
+                  <rect x="371.3" y="54.3" width="34" height="165.7" rx="3"/>
+                </g>
+                <g font-size="9" fill="#626876" text-anchor="middle" font-family="JetBrains Mono">
+                  <text x="71.6" y="236">Jan</text><text x="134.9" y="236">Feb</text><text x="198.3" y="236">Mar</text>
+                  <text x="261.6" y="236">Apr</text><text x="324.9" y="236">May</text><text x="388.3" y="236">Jun</text>
+                </g>
+              </svg>
+            </div>
+            <p class="caption">May stands out (highlighted) — exactly the kind of insight <code>.idxmax()</code> surfaces instantly.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="real-world">
+        <div class="icon">RW</div>
+        <div>
+          <h4>Real-world example: e-commerce analytics</h4>
+          <p>An online store's raw order log — timestamps, product IDs, prices, customer regions — is exactly the messy tabular data pandas exists for. Analysts use <code>groupby()</code> to compute revenue by region, <code>merge()</code> to join orders with a product catalog, and <code>pivot_table()</code> to build the weekly report a manager actually reads.</p>
+        </div>
+      </div>
+
+      <div class="resources-row">
+        <span class="label">GO DEEPER</span>
+        <div class="chip-set">
+          <a class="chip" href="https://pandas.pydata.org/docs/" target="_blank" rel="noopener">Official Pandas docs <span class="arrow">↗</span></a>
+          <a class="chip" href="https://pandas.pydata.org/docs/getting_started/intro_tutorials/index.html" target="_blank" rel="noopener">Pandas "10 minutes" tutorial <span class="arrow">↗</span></a>
+          <a class="chip" href="https://www.kaggle.com/learn/pandas" target="_blank" rel="noopener">Kaggle Learn: Pandas <span class="arrow">↗</span></a>
+          <a class="chip" href="https://www.w3schools.com/python/pandas/default.asp" target="_blank" rel="noopener">W3Schools Pandas tutorial <span class="arrow">↗</span></a>
+          <a class="chip" href="https://realpython.com/pandas-python-explore-dataset/" target="_blank" rel="noopener">Real Python: exploring datasets <span class="arrow">↗</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ MATPLOTLIB ============ -->
+    <section class="lib" id="matplotlib" data-accent="mpl">
+      <div class="lib-head">
+        <h2><span class="bracket">03 /</span> Matplotlib</h2>
+        <span class="lib-tag">the original Python plotting library</span>
+      </div>
+      <p class="lib-intro">Matplotlib turns arrays and DataFrames into figures — line charts, bar charts, scatter plots, histograms and more. It's low-level and highly customizable, which is exactly why higher-level libraries like Seaborn and pandas' own <code>.plot()</code> are built directly on top of it.</p>
+
+      <h3 class="block-title">Core concepts</h3>
+      <div class="concept-grid">
+        <div class="concept-card">
+          <h4>Figure &amp; Axes anatomy</h4>
+          <p>A <code>Figure</code> is the entire canvas or window; an <code>Axes</code> is one individual plot living inside it — a figure can hold several axes as subplots. Understanding this split is the key to everything else in matplotlib, especially multi-panel charts.</p>
+        </div>
+        <div class="concept-card">
+          <h4>pyplot vs object-oriented API</h4>
+          <p>The quick <code>plt.plot()</code> style implicitly tracks a "current" figure and axes — great for one-off charts. The object-oriented style (<code>fig, ax = plt.subplots()</code>) gives you explicit handles to work with, which scales far better for anything with multiple subplots.</p>
+        </div>
+        <div class="concept-card">
+          <h4>Plot types</h4>
+          <p><code>plot()</code> draws lines for trends over time, <code>bar()</code> compares categories, <code>scatter()</code> reveals relationships between two variables, and <code>hist()</code> shows a single variable's distribution. Choosing the right plot type is half the job of visualizing data well.</p>
+        </div>
+        <div class="concept-card">
+          <h4>Customizing a chart</h4>
+          <p>Titles, axis labels, legends, colors, line styles and gridlines all have dedicated methods (<code>set_title()</code>, <code>legend()</code>, etc.). A chart without labels is barely more useful than raw numbers, so this step is never optional in real work.</p>
+        </div>
+        <div class="concept-card">
+          <h4>Subplots &amp; layouts</h4>
+          <p><code>plt.subplots(rows, cols)</code> creates a grid of axes in one call, letting you compare several charts side by side — think a dashboard with revenue, users, and errors all on one screen.</p>
+        </div>
+        <div class="concept-card">
+          <h4>Saving &amp; exporting</h4>
+          <p><code>fig.savefig('chart.png', dpi=300)</code> exports a chart as an image file for a report, slide deck, or publication, and supports vector formats like SVG and PDF for print-quality figures.</p>
+        </div>
+      </div>
+
+      <h3 class="block-title">Properties &amp; methods you'll actually use</h3>
+      <div class="table-wrap">
+        <table class="methods">
+          <thead><tr><th>Property / Method</th><th>What it does</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">plt.plot()</td><td class="desc">Draws a line (or set of lines) connecting a sequence of x/y points.</td></tr>
+            <tr><td class="mono">plt.scatter()</td><td class="desc">Plots individual points to reveal correlation or clustering between two variables.</td></tr>
+            <tr><td class="mono">plt.bar() / barh()</td><td class="desc">Vertical or horizontal bar charts for comparing categories.</td></tr>
+            <tr><td class="mono">plt.subplots()</td><td class="desc">Creates a figure with a grid of axes, returning handles to both.</td></tr>
+            <tr><td class="mono">ax.set_xlabel() / set_ylabel()</td><td class="desc">Labels the axes — essential for a chart anyone else needs to read.</td></tr>
+            <tr><td class="mono">ax.legend()</td><td class="desc">Displays a key explaining what each line or series represents.</td></tr>
+            <tr><td class="mono">ax.set_title()</td><td class="desc">Adds a title describing what the chart shows at a glance.</td></tr>
+            <tr><td class="mono">fig.savefig()</td><td class="desc">Exports the figure to a file — PNG, SVG, PDF, and more.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="project">
+        <span class="project-tag">MINI PROJECT</span>
+        <h4>📊 Stock Price Comparison Dashboard</h4>
+        <div class="notebook">
+          <div class="io-block io-in">
+            <span class="tag">In [4]:</span>
+            <pre><span class="fn">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+months = [<span class="str">'Jan'</span>,<span class="str">'Feb'</span>,<span class="str">'Mar'</span>,<span class="str">'Apr'</span>,<span class="str">'May'</span>,<span class="str">'Jun'</span>]
+company_a = [100, 108, 104, 115, 120, 118]
+company_b = [100, 95, 102, 99, 108, 112]
+
+fig, ax = plt.subplots()
+ax.plot(months, company_a, label=<span class="str">'Company A'</span>)
+ax.plot(months, company_b, label=<span class="str">'Company B'</span>)
+ax.set_title(<span class="str">'Indexed price, base 100'</span>)
+ax.legend()</pre>
+          </div>
+          <div class="io-block io-out">
+            <span class="tag">Out[4]:</span>
+            <div class="chart-frame">
+              <svg viewBox="0 0 440 260" role="img" aria-label="Line chart comparing indexed stock prices of Company A and Company B over six months, both starting at 100">
+                <line x1="40" y1="60" x2="420" y2="60" stroke="#e1e2dc"/>
+                <line x1="40" y1="140" x2="420" y2="140" stroke="#e1e2dc"/>
+                <text x="30" y="64" font-size="9" fill="#626876" text-anchor="end" font-family="JetBrains Mono">120</text>
+                <text x="30" y="144" font-size="9" fill="#626876" text-anchor="end" font-family="JetBrains Mono">100</text>
+                <line x1="40" y1="220" x2="420" y2="220" stroke="#1c2029" stroke-width="1"/>
+                <polyline points="40,140 116,108 192,124 268,80 344,60 420,68" fill="none" stroke="#11557c" stroke-width="2.5"/>
+                <polyline points="40,140 116,160 192,132 268,144 344,108 420,92" fill="none" stroke="#f2c14e" stroke-width="2.5"/>
+                <g font-size="9" fill="#626876" text-anchor="middle" font-family="JetBrains Mono">
+                  <text x="40" y="236">Jan</text><text x="116" y="236">Feb</text><text x="192" y="236">Mar</text>
+                  <text x="268" y="236">Apr</text><text x="344" y="236">May</text><text x="420" y="236">Jun</text>
+                </g>
+                <g font-size="9" font-family="JetBrains Mono">
+                  <rect x="330" y="16" width="10" height="10" fill="#11557c"/><text x="344" y="25" fill="#1c2029">Company A</text>
+                  <rect x="330" y="30" width="10" height="10" fill="#f2c14e"/><text x="344" y="39" fill="#1c2029">Company B</text>
+                </g>
+              </svg>
+            </div>
+            <p class="caption">Two <code>ax.plot()</code> calls plus one <code>ax.legend()</code> — this is most of what a finance dashboard chart looks like under the hood.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="real-world">
+        <div class="icon">RW</div>
+        <div>
+          <h4>Real-world example: research publications</h4>
+          <p>Matplotlib's precise control over every visual element is why it remains the default choice for figures in academic papers and scientific publications — journals typically require vector-format, high-DPI exports, which <code>savefig()</code> produces directly, down to exact font sizes and line weights.</p>
+        </div>
+      </div>
+
+      <div class="resources-row">
+        <span class="label">GO DEEPER</span>
+        <div class="chip-set">
+          <a class="chip" href="https://matplotlib.org/stable/index.html" target="_blank" rel="noopener">Official Matplotlib docs <span class="arrow">↗</span></a>
+          <a class="chip" href="https://matplotlib.org/stable/tutorials/index.html" target="_blank" rel="noopener">Matplotlib tutorials <span class="arrow">↗</span></a>
+          <a class="chip" href="https://www.w3schools.com/python/matplotlib_intro.asp" target="_blank" rel="noopener">W3Schools Matplotlib tutorial <span class="arrow">↗</span></a>
+          <a class="chip" href="https://www.geeksforgeeks.org/matplotlib-tutorial/" target="_blank" rel="noopener">GeeksforGeeks Matplotlib <span class="arrow">↗</span></a>
+          <a class="chip" href="https://www.freecodecamp.org/news/matplotlib-tutorial-and-cheat-sheet-for-beginners/" target="_blank" rel="noopener">freeCodeCamp guide <span class="arrow">↗</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SEABORN ============ -->
+    <section class="lib" id="seaborn" data-accent="sea">
+      <div class="lib-head">
+        <h2><span class="bracket">04 /</span> Seaborn</h2>
+        <span class="lib-tag">statistical plots, styled by default</span>
+      </div>
+      <p class="lib-intro">Seaborn sits on top of Matplotlib and works directly with Pandas DataFrames, trading manual control for beautiful defaults and built-in statistics. What takes ten lines of matplotlib setup — themes, color palettes, confidence intervals — often takes one line in seaborn.</p>
+
+      <h3 class="block-title">Core concepts</h3>
+      <div class="concept-grid">
+        <div class="concept-card">
+          <h4>Seaborn &amp; Matplotlib</h4>
+          <p>Seaborn doesn't replace matplotlib, it wraps it — every seaborn plot returns a matplotlib Axes you can still customize with <code>plt</code> or <code>ax</code> calls. Think of seaborn as the "statistics and styling" layer over matplotlib's "drawing" layer.</p>
+        </div>
+        <div class="concept-card">
+          <h4>Themes &amp; palettes</h4>
+          <p><code>sns.set_theme()</code> switches the overall look (grid, fonts, colors) in one call, and named color palettes like <code>'deep'</code> or <code>'coolwarm'</code> keep multi-category charts readable and consistent without manual color picking.</p>
+        </div>
+        <div class="concept-card">
+          <h4>Relational plots</h4>
+          <p><code>scatterplot()</code> and <code>lineplot()</code> show the relationship between two numeric variables, and can automatically color or size points by a third category (<code>hue</code>, <code>size</code>) — a task that takes real effort in raw matplotlib.</p>
+        </div>
+        <div class="concept-card">
+          <h4>Categorical plots</h4>
+          <p><code>boxplot()</code>, <code>violinplot()</code> and <code>barplot()</code> compare a numeric variable across categories, automatically computing summary statistics like medians, quartiles, and confidence intervals as part of the plot itself.</p>
+        </div>
+        <div class="concept-card">
+          <h4>Distribution plots</h4>
+          <p><code>histplot()</code> and <code>kdeplot()</code> visualize how a single variable is distributed, with an optional smooth density curve layered over the histogram bars in one function call.</p>
+        </div>
+        <div class="concept-card">
+          <h4>Matrix &amp; grid plots</h4>
+          <p><code>heatmap()</code> visualizes a matrix of values (like a correlation table) as color intensity, and <code>pairplot()</code>/<code>FacetGrid</code> automatically lay out a grid of small charts, one per variable or category combination.</p>
+        </div>
+      </div>
+
+      <h3 class="block-title">Properties &amp; methods you'll actually use</h3>
+      <div class="table-wrap">
+        <table class="methods">
+          <thead><tr><th>Property / Method</th><th>What it does</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">sns.set_theme()</td><td class="desc">Applies a consistent visual style and color palette to all following plots.</td></tr>
+            <tr><td class="mono">sns.scatterplot()</td><td class="desc">Plots two numeric variables against each other, optionally colored by a category.</td></tr>
+            <tr><td class="mono">sns.lineplot()</td><td class="desc">Plots a trend over an ordered variable, with an automatic confidence band.</td></tr>
+            <tr><td class="mono">sns.boxplot() / violinplot()</td><td class="desc">Summarizes a numeric variable's spread across categories.</td></tr>
+            <tr><td class="mono">sns.histplot() / kdeplot()</td><td class="desc">Visualizes the distribution (and density) of a single variable.</td></tr>
+            <tr><td class="mono">sns.heatmap()</td><td class="desc">Renders a 2-D matrix, such as a correlation table, as a grid of colored cells.</td></tr>
+            <tr><td class="mono">sns.pairplot()</td><td class="desc">Builds a grid of scatter plots for every pair of numeric columns in one call.</td></tr>
+            <tr><td class="mono">sns.barplot()</td><td class="desc">Compares an aggregate (like a mean) of a numeric variable across categories.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="project">
+        <span class="project-tag">MINI PROJECT</span>
+        <h4>🌸 Iris Feature Correlation Explorer</h4>
+        <div class="notebook">
+          <div class="io-block io-in">
+            <span class="tag">In [5]:</span>
+            <pre><span class="fn">import</span> seaborn <span class="kw">as</span> sns
+
+sns.set_theme(style=<span class="str">'white'</span>)
+corr = iris_df.corr(numeric_only=<span class="kw">True</span>)
+
+sns.heatmap(corr, annot=<span class="kw">True</span>, cmap=<span class="str">'coolwarm'</span>,
+            vmin=-1, vmax=1)</pre>
+          </div>
+          <div class="io-block io-out">
+            <span class="tag">Out[5]: correlation matrix, Sepal/Petal features</span>
+            <div class="chart-frame">
+              <svg viewBox="0 0 400 250" role="img" aria-label="Correlation heatmap of five Iris dataset features: sepal length, sepal width, petal length, petal width, and target">
+                <g font-family="JetBrains Mono" font-size="9">
+                  <!-- column headers -->
+                  <text x="110" y="10" fill="#626876" text-anchor="middle">SL</text>
+                  <text x="170" y="10" fill="#626876" text-anchor="middle">SW</text>
+                  <text x="230" y="10" fill="#626876" text-anchor="middle">PL</text>
+                  <text x="290" y="10" fill="#626876" text-anchor="middle">PW</text>
+                  <text x="350" y="10" fill="#626876" text-anchor="middle">TG</text>
+                  <!-- row headers -->
+                  <text x="45" y="34" fill="#626876" text-anchor="end">SL</text>
+                  <text x="45" y="70" fill="#626876" text-anchor="end">SW</text>
+                  <text x="45" y="106" fill="#626876" text-anchor="end">PL</text>
+                  <text x="45" y="142" fill="#626876" text-anchor="end">PW</text>
+                  <text x="45" y="178" fill="#626876" text-anchor="end">TG</text>
+                </g>
+                <!-- row SL -->
+                <g>
+                  <rect x="80" y="16" width="60" height="36" fill="#4c72b0" opacity="1.00"/><text x="110" y="38" text-anchor="middle" font-size="9" fill="#fff" font-family="JetBrains Mono">1.00</text>
+                  <rect x="140" y="16" width="60" height="36" fill="#dd8452" opacity="0.12"/><text x="170" y="38" text-anchor="middle" font-size="9" fill="#1c2029" font-family="JetBrains Mono">-.12</text>
+                  <rect x="200" y="16" width="60" height="36" fill="#4c72b0" opacity="0.87"/><text x="230" y="38" text-anchor="middle" font-size="9" fill="#fff" font-family="JetBrains Mono">.87</text>
+                  <rect x="260" y="16" width="60" height="36" fill="#4c72b0" opacity="0.82"/><text x="290" y="38" text-anchor="middle" font-size="9" fill="#fff" font-family="JetBrains Mono">.82</text>
+                  <rect x="320" y="16" width="60" height="36" fill="#4c72b0" opacity="0.78"/><text x="350" y="38" text-anchor="middle" font-size="9" fill="#fff" font-family="JetBrains Mono">.78</text>
+                </g>
+                <!-- row SW -->
+                <g>
+                  <rect x="80" y="52" width="60" height="36" fill="#dd8452" opacity="0.12"/><text x="110" y="74" text-anchor="middle" font-size="9" fill="#1c2029" font-family="JetBrains Mono">-.12</text>
+                  <rect x="140" y="52" width="60" height="36" fill="#4c72b0" opacity="1.00"/><text x="170" y="74" text-anchor="middle" font-size="9" fill="#fff" font-family="JetBrains Mono">1.00</text>
+                  <rect x="200" y="52" width="60" height="36" fill="#dd8452" opacity="0.43"/><text x="230" y="74" text-anchor="middle" font-size="9" fill="#1c2029" font-family="JetBrains Mono">-.43</text>
+                  <rect x="260" y="52" width="60" height="36" fill="#dd8452" opacity="0.37"/><text x="290" y="74" text-anchor="middle" font-size="9" fill="#1c2029" font-family="JetBrains Mono">-.37</text>
+                  <rect x="320" y="52" width="60" height="36" fill="#dd8452" opacity="0.42"/><text x="350" y="74" text-anchor="middle" font-size="9" fill="#1c2029" font-family="JetBrains Mono">-.42</text>
+                </g>
+                <!-- row PL -->
+                <g>
+                  <rect x="80" y="88" width="60" height="36" fill="#4c72b0" opacity="0.87"/><text x="110" y="110" text-anchor="middle" font-size="9" fill="#fff" font-family="JetBrains Mono">.87</text>
+                  <rect x="140" y="88" width="60" height="36" fill="#dd8452" opacity="0.43"/><text x="170" y="110" text-anchor="middle" font-size="9" fill="#1c2029" font-family="JetBrains Mono">-.43</text>
+                  <rect x="200" y="88" width="60" height="36" fill="#4c72b0" opacity="1.00"/><text x="230" y="110" text-anchor="middle" font-size="9" fill="#fff" font-family="JetBrains Mono">1.00</text>
+                  <rect x="260" y="88" width="60" height="36" fill="#4c72b0" opacity="0.96"/><text x="290" y="110" text-anchor="middle" font-size="9" fill="#fff" font-family="JetBrains Mono">.96</text>
+                  <rect x="320" y="88" width="60" height="36" fill="#4c72b0" opacity="0.95"/><text x="350" y="110" text-anchor="middle" font-size="9" fill="#fff" font-family="JetBrains Mono">.95</text>
+                </g>
+                <!-- row PW -->
+                <g>
+                  <rect x="80" y="124" width="60" height="36" fill="#4c72b0" opacity="0.82"/><text x="110" y="146" text-anchor="middle" font-size="9" fill="#fff" font-family="JetBrains Mono">.82</text>
+                  <rect x="140" y="124" width="60" height="36" fill="#dd8452" opacity="0.37"/><text x="170" y="146" text-anchor="middle" font-size="9" fill="#1c2029" font-family="JetBrains Mono">-.37</text>
+                  <rect x="200" y="124" width="60" height="36" fill="#4c72b0" opacity="0.96"/><text x="230" y="146" text-anchor="middle" font-size="9" fill="#fff" font-family="JetBrains Mono">.96</text>
+                  <rect x="260" y="124" width="60" height="36" fill="#4c72b0" opacity="1.00"/><text x="290" y="146" text-anchor="middle" font-size="9" fill="#fff" font-family="JetBrains Mono">1.00</text>
+                  <rect x="320" y="124" width="60" height="36" fill="#4c72b0" opacity="0.96"/><text x="350" y="146" text-anchor="middle" font-size="9" fill="#fff" font-family="JetBrains Mono">.96</text>
+                </g>
+                <!-- row TG -->
+                <g>
+                  <rect x="80" y="160" width="60" height="36" fill="#4c72b0" opacity="0.78"/><text x="110" y="182" text-anchor="middle" font-size="9" fill="#fff" font-family="JetBrains Mono">.78</text>
+                  <rect x="140" y="160" width="60" height="36" fill="#dd8452" opacity="0.42"/><text x="170" y="182" text-anchor="middle" font-size="9" fill="#1c2029" font-family="JetBrains Mono">-.42</text>
+                  <rect x="200" y="160" width="60" height="36" fill="#4c72b0" opacity="0.95"/><text x="230" y="182" text-anchor="middle" font-size="9" fill="#fff" font-family="JetBrains Mono">.95</text>
+                  <rect x="260" y="160" width="60" height="36" fill="#4c72b0" opacity="0.96"/><text x="290" y="182" text-anchor="middle" font-size="9" fill="#fff" font-family="JetBrains Mono">.96</text>
+                  <rect x="320" y="160" width="60" height="36" fill="#4c72b0" opacity="1.00"/><text x="350" y="182" text-anchor="middle" font-size="9" fill="#fff" font-family="JetBrains Mono">1.00</text>
+                </g>
+              </svg>
+            </div>
+            <p class="caption">Petal length &amp; width move almost perfectly together (0.96) — the kind of pattern a heatmap surfaces in one glance that a raw table hides.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="real-world">
+        <div class="icon">RW</div>
+        <div>
+          <h4>Real-world example: exploratory data analysis (EDA)</h4>
+          <p>Before training any machine learning model, data scientists run EDA to understand their features — seaborn's <code>pairplot()</code> and <code>heatmap()</code> are the fastest way to spot which variables actually predict the target and which ones are redundant, directly shaping feature selection decisions.</p>
+        </div>
+      </div>
+
+      <div class="resources-row">
+        <span class="label">GO DEEPER</span>
+        <div class="chip-set">
+          <a class="chip" href="https://seaborn.pydata.org/" target="_blank" rel="noopener">Official Seaborn docs <span class="arrow">↗</span></a>
+          <a class="chip" href="https://seaborn.pydata.org/tutorial.html" target="_blank" rel="noopener">Seaborn official tutorials <span class="arrow">↗</span></a>
+          <a class="chip" href="https://www.geeksforgeeks.org/python-seaborn-tutorial/" target="_blank" rel="noopener">GeeksforGeeks Seaborn <span class="arrow">↗</span></a>
+          <a class="chip" href="https://www.w3schools.com/python/seaborn/index.php" target="_blank" rel="noopener">W3Schools Seaborn tutorial <span class="arrow">↗</span></a>
+          <a class="chip" href="https://www.kaggle.com/learn/data-visualization" target="_blank" rel="noopener">Kaggle Learn: Data Visualization <span class="arrow">↗</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ RESOURCES / COURSES ============ -->
+    <section class="courses" id="resources">
+      <h2>Keep learning — free courses &amp; publications</h2>
+      <p>Beyond documentation, these are well-regarded, widely used resources for going deeper on the Python data stack — official docs, structured free courses, and community references.</p>
+
+      <div class="course-grid">
+        <a class="course-card" href="https://numpy.org/doc/stable/" target="_blank" rel="noopener">
+          <span class="kind">Documentation</span>
+          <h5>NumPy Official Docs</h5>
+          <p>The authoritative reference for every function, with a dedicated beginner's guide.</p>
+        </a>
+        <a class="course-card" href="https://pandas.pydata.org/docs/" target="_blank" rel="noopener">
+          <span class="kind">Documentation</span>
+          <h5>Pandas Official Docs</h5>
+          <p>Includes the widely used "10 minutes to pandas" quick-start tutorial.</p>
+        </a>
+        <a class="course-card" href="https://matplotlib.org/stable/index.html" target="_blank" rel="noopener">
+          <span class="kind">Documentation</span>
+          <h5>Matplotlib Official Docs</h5>
+          <p>Full API reference plus a large gallery of example charts with source code.</p>
+        </a>
+        <a class="course-card" href="https://seaborn.pydata.org/" target="_blank" rel="noopener">
+          <span class="kind">Documentation</span>
+          <h5>Seaborn Official Docs</h5>
+          <p>Gallery-driven docs — browse a chart type, get the exact code that made it.</p>
+        </a>
+        <a class="course-card" href="https://www.kaggle.com/learn" target="_blank" rel="noopener">
+          <span class="kind">Free course</span>
+          <h5>Kaggle Learn</h5>
+          <p>Short, free, hands-on courses on Python, Pandas, and Data Visualization with in-browser notebooks.</p>
+        </a>
+        <a class="course-card" href="https://www.freecodecamp.org/learn/data-analysis-with-python/" target="_blank" rel="noopener">
+          <span class="kind">Free course</span>
+          <h5>freeCodeCamp: Data Analysis with Python</h5>
+          <p>A full free certification covering NumPy, Pandas, and Matplotlib end to end.</p>
+        </a>
+        <a class="course-card" href="https://www.coursera.org/professional-certificates/ibm-data-science" target="_blank" rel="noopener">
+          <span class="kind">Course (audit free)</span>
+          <h5>IBM Data Science Professional Certificate</h5>
+          <p>Coursera's widely taken program covering the full Python data science toolkit.</p>
+        </a>
+        <a class="course-card" href="https://cs50.harvard.edu/python/" target="_blank" rel="noopener">
+          <span class="kind">Free course</span>
+          <h5>Harvard CS50's Python</h5>
+          <p>A rigorous, free introduction to Python from Harvard, useful groundwork before the data libraries.</p>
+        </a>
+        <a class="course-card" href="https://realpython.com/" target="_blank" rel="noopener">
+          <span class="kind">Publication</span>
+          <h5>Real Python</h5>
+          <p>In-depth, well-tested tutorials and articles on every library covered on this page.</p>
+        </a>
+        <a class="course-card" href="https://www.geeksforgeeks.org/data-analysis-tutorial/" target="_blank" rel="noopener">
+          <span class="kind">Publication</span>
+          <h5>GeeksforGeeks Data Analysis</h5>
+          <p>Reference-style articles and cheat sheets, useful for quickly looking up syntax.</p>
+        </a>
+        <a class="course-card" href="https://www.youtube.com/c/Coreyms" target="_blank" rel="noopener">
+          <span class="kind">Free video course</span>
+          <h5>Corey Schafer's YouTube channel</h5>
+          <p>Long-running, highly regarded video series on Pandas, Matplotlib, and core Python.</p>
+        </a>
+        <a class="course-card" href="https://www.w3schools.com/python/" target="_blank" rel="noopener">
+          <span class="kind">Reference</span>
+          <h5>W3Schools Python</h5>
+          <p>Beginner-friendly reference with a live, in-browser editor for every topic.</p>
+        </a>
+      </div>
+    </section>
+
+    <footer>
+      <span>python_field_notes — built for learning, not production. verify code in your own environment.</span>
+      <span>NumPy · Pandas · Matplotlib · Seaborn</span>
+    </footer>
+
+  </main>
+</div>
+
+<button class="top-btn" id="topBtn" type="button" aria-label="Back to top">↑</button>
+
+<script src="script.js"></script>
+</body>
+</html>
